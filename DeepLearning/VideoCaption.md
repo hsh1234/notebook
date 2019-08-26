@@ -91,11 +91,39 @@
 
 
 
-### 三、Sequence to Sequence – Video to Text
+### 三、Sequence to Sequence – Video to Text --- 2015.10.19
 
 ![1566790266376](E:\notebook\DeepLearning\VideoCaption.assets\1566790266376.png)
 
 ![1566790279497](E:\notebook\DeepLearning\VideoCaption.assets\1566790279497.png)
 
-#### 模型描述：
+#### 模型介绍：
+
+本文是早期经典文章，思路相对简单，如图所示，对视频的特征提取也仅仅对每帧的图像使用CNN网络进行2D特征的提取，同时加入了另外的特征——光流图像提取的特征，因为可以更好的表示视频中的动作，整个视频encoder和decoder过程在一个LSTM模型上完成，考虑到了视频的时序特征，因此使用LSTM网络来顺序进行图像特征的输入，用隐含层来表示整个视频，再接着输入单词来逐个预测单词，之后是详细介绍。
+
+本文提出的模型，对于视频抽取帧画面之后，使用训练好的VGG16模型对帧画面进行特征提取，得到fc7层的输出向量（4096长度），然后按视频帧顺序依次输入到LSTMs网络中，在输入过程中不产生输出，做encoding操作，并将第一层得到的输出向量输入到第二层LSTM，当所有视频帧输入完毕，开始获取第二层LSTM的输出（也就是对应的描述句子单词），直到获得<eos>为止。
+
+#### 训练方法：
+
+采用最大似然法，优化参数的值，来最大化生成正确句子的概率，对于第二层LSTM的输出，经过softmax到one-hot词库中取词，并通过交叉熵的方式来计算误差值：![1566798383134](E:\notebook\DeepLearning\VideoCaption.assets\1566798383134.png)
+
+![1566798417750](E:\notebook\DeepLearning\VideoCaption.assets\1566798417750.png)
+
+#### 评估指标：
+
+使用视频数据集：MSVD
+
+![1566799051366](E:\notebook\DeepLearning\VideoCaption.assets\1566799051366.png)
+
+#### 总结：
+
+由于是早期的文章，忽略了很多东西，比如在image caption中有显著贡献的attention机制，更好的时序特征提取技术，其他的特征比如语音、背景音等特征。可以说这篇文章极大的依赖LSTM网络本身的性质，时序特征也就是image feature之间的关联也靠模型自动学习，包括最终的视频特征和之后单词之间的关联也都靠LSTM模型自动学习，作者只加了一个光流图像特征进行加权平均。
+
+
+
+### 四、**Video Paragraph Captioning Using Hierarchical Recurrent Neural Networks** --- 2016.4.6
+
+#### 模型介绍：
+
+
 
