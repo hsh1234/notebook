@@ -51,3 +51,51 @@
 
 #### 模型介绍：
 
+先对所有视频帧画面使用卷积神经网络进行图片特征提取，获取fc7层的特征向量（4096固定长度），然后将所有帧画面提取到的特征向量做meanpooling得到一个最终向量（类似图片描述中的输入向量）。在LSTMs网络中，每个步长都输入同样的向量，并在每个步长都得到LSTMs的一个输出作为当前输出单词的编码，直到输出结束符<EOS>为止。
+
+在本文中提到，在Donahue et al. (2014)提出两层的LSTM比四层或者单层的LSTM效果好。
+
+对于单词的处理方式：one-hot编码
+
+#### 训练方法：
+
+采用最大似然法，优化参数的值，来最大化生成正确句子的概率。 given the corresponding video *V* and the model parameters *θ*，对应的交叉熵公式：![1566784464077](E:\notebook\DeepLearning\VideoCaption.assets\1566784464077.png)
+
+上式是对于整个句子做交叉熵，在本文中还可以对每个单词做交叉熵后相加得到损失值：
+
+![1566784597082](E:\notebook\DeepLearning\VideoCaption.assets\1566784597082.png)
+
+对于将LSTM的输出映射到one-hot词库还是使用softmax函数：
+
+![1566789153944](E:\notebook\DeepLearning\VideoCaption.assets\1566789153944.png)
+
+#### 评估指标：
+
+数据集使用：MSVD
+
+指标：
+
+![1566789433801](E:\notebook\DeepLearning\VideoCaption.assets\1566789433801.png)
+
+在本文中去掉了mean pooling，直接输入单个帧特征到模型中，查看mean pooling的影响，最终效果：
+
+![1566789877545](E:\notebook\DeepLearning\VideoCaption.assets\1566789877545.png)
+
+相对没有mean pooling差。
+
+#### 总结：
+
+缺点：
+
+1. 使用mean pooling对所有视频帧整合，丢失了视频序列上的部分信息。
+
+
+
+### 三、Sequence to Sequence – Video to Text
+
+![1566790266376](E:\notebook\DeepLearning\VideoCaption.assets\1566790266376.png)
+
+![1566790279497](E:\notebook\DeepLearning\VideoCaption.assets\1566790279497.png)
+
+#### 模型描述：
+

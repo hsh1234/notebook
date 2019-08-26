@@ -42,4 +42,5 @@
 
    http://192.168.31.1/cgi-bin/luci/;stok=《你的stok》/api/xqsystem/set_name_password?oldPwd=《你当前的后台管理密码》&newPwd=《新密码》
    **网页中出现“{"code":0}”的字样，表示修改密码成功！**
+   
 6. 然后就可以使用putty登陆。root-《新密码》
