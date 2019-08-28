@@ -6,16 +6,16 @@
 
 ### 一、long-term Recurrent Convolutional Networks for Visual Recognition and Description --- 2015.2.17
 
-![1566703632542](E:\notebook\DeepLearning\VideoCaption.assets\1566703632542.png)
+![1566703632542](.\VideoCaption.assets\1566703632542.png)
 
 1. 在本文中提出了Long-term Recurrent Convolutional Network (LRCN)模型，包含了一个特征提取器（例如CNN），以及时序学习器，该模型不是专门用于视频描述的，该文章使用该模型的三种类型用在不同的任务上面。
 2. 帧画面通过特征变换参数（特征提取器）得到一个固定长度向量来表示该帧画面的特征，在得到帧画面的特征值后输入到序列模型（例如LSTMs），然后经过softmax进行选词：
 
-![1566713816911](E:\notebook\DeepLearning\VideoCaption.assets\1566713816911.png)
+![1566713816911](.\VideoCaption.assets\1566713816911.png)
 
 3. 该模型可以适应多种模式：
 
-   ![1566714677161](E:\notebook\DeepLearning\VideoCaption.assets\1566714677161.png)
+   ![1566714677161](.\VideoCaption.assets\1566714677161.png)
 
    1. Sequential inputs, fifixed outputs： many-to-one的模型，实现方式是对于序列模型，在最后步骤合并之前步长所学习到的特征成为一个总的特征y，这样就得到了一个输出。
    2. Fixed inputs, sequential outputs： one-to-many的模型，实现方式是在所有序列模型的输入步长都使用同一个x，由于个步长都会得到一个输出，因此得到了一个序列的输出。
@@ -24,7 +24,7 @@
 4. 训练方法：
 
    1. 使用随机梯度下降方法对模型进行训练，使输出y落在真实单词位置的可能性最大，也就是最大似然方法。
-   2. 采用交叉熵公式：![1566715756310](E:\notebook\DeepLearning\VideoCaption.assets\1566715756310.png)
+   2. 采用交叉熵公式：![1566715756310](.\VideoCaption.assets\1566715756310.png)
    3. 使用负对数的方法，变成最小化问题。
 
 5. 指标：
@@ -37,17 +37,17 @@
 
       在视频描述方面使用了模型如下：
 
-      ![1566719204700](E:\notebook\DeepLearning\VideoCaption.assets\1566719204700.png)
+      ![1566719204700](.\VideoCaption.assets\1566719204700.png)
 
       主要在LSTM之前使用了CRF对视频进行处理，得到如下评估数据（BLEU4）：
 
-      ![1566718674465](E:\notebook\DeepLearning\VideoCaption.assets\1566718674465.png)
+      ![1566718674465](.\VideoCaption.assets\1566718674465.png)
 
       
 
 ### 二、Translating Videos to Natural Language Using Deep Recurrent Neural Networks --- 2015.4.30
 
-![1566731313945](E:\notebook\DeepLearning\VideoCaption.assets\1566731313945.png)
+![1566731313945](.\VideoCaption.assets\1566731313945.png)
 
 #### 模型介绍：
 
@@ -63,11 +63,11 @@
 
 上式是对于整个句子做交叉熵，在本文中还可以对每个单词做交叉熵后相加得到损失值：
 
-![1566784597082](E:\notebook\DeepLearning\VideoCaption.assets\1566784597082.png)
+![1566784597082](.\VideoCaption.assets\1566784597082.png)
 
 对于将LSTM的输出映射到one-hot词库还是使用softmax函数：
 
-![1566789153944](E:\notebook\DeepLearning\VideoCaption.assets\1566789153944.png)
+![1566789153944](.\VideoCaption.assets\1566789153944.png)
 
 #### 评估指标：
 
@@ -75,11 +75,11 @@
 
 指标：
 
-![1566789433801](E:\notebook\DeepLearning\VideoCaption.assets\1566789433801.png)
+![1566789433801](.\VideoCaption.assets\1566789433801.png)
 
 在本文中去掉了mean pooling，直接输入单个帧特征到模型中，查看mean pooling的影响，最终效果：
 
-![1566789877545](E:\notebook\DeepLearning\VideoCaption.assets\1566789877545.png)
+![1566789877545](.\VideoCaption.assets\1566789877545.png)
 
 相对没有mean pooling差。
 
@@ -93,9 +93,9 @@
 
 ### 三、Sequence to Sequence – Video to Text --- 2015.10.19
 
-![1566790266376](E:\notebook\DeepLearning\VideoCaption.assets\1566790266376.png)
+![1566790266376](.\VideoCaption.assets\1566790266376.png)
 
-![1566790279497](E:\notebook\DeepLearning\VideoCaption.assets\1566790279497.png)
+![1566790279497](.\VideoCaption.assets\1566790279497.png)
 
 #### 模型介绍：
 
@@ -105,15 +105,15 @@
 
 #### 训练方法：
 
-采用最大似然法，优化参数的值，来最大化生成正确句子的概率，对于第二层LSTM的输出，经过softmax到one-hot词库中取词，并通过交叉熵的方式来计算误差值：![1566798383134](E:\notebook\DeepLearning\VideoCaption.assets\1566798383134.png)
+采用最大似然法，优化参数的值，来最大化生成正确句子的概率，对于第二层LSTM的输出，经过softmax到one-hot词库中取词，并通过交叉熵的方式来计算误差值：![1566798383134](.\VideoCaption.assets\1566798383134.png)
 
-![1566798417750](E:\notebook\DeepLearning\VideoCaption.assets\1566798417750.png)
+![1566798417750](.\VideoCaption.assets\1566798417750.png)
 
 #### 评估指标：
 
 使用视频数据集：MSVD
 
-![1566799051366](E:\notebook\DeepLearning\VideoCaption.assets\1566799051366.png)
+![1566799051366](.\VideoCaption.assets\1566799051366.png)
 
 #### 总结：
 
@@ -123,7 +123,6 @@
 
 ### 四、**Video Paragraph Captioning Using Hierarchical Recurrent Neural Networks** --- 2016.4.6
 
+![1566981985654](.\VideoCaption.assets\1566981985654.png)
+
 #### 模型介绍：
-
-
-
