@@ -206,7 +206,7 @@
 
 ### 六、Video Captioning via Hierarchical Reinforcement Learning --- 2018.3.29
 
-
+![1567152456086](VideoCaption.assets/1567152456086.png)
 
 
 
@@ -218,4 +218,5 @@
 #### 评估指标：
 
 #### 总结：
+
 
