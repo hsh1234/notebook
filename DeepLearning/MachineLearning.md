@@ -1,4 +1,4 @@
-# sklearn实现机器学习算法记录
+# sklearn简单实现机器学习算法记录
 
 需要引入最重要的库：Scikit-learn
 

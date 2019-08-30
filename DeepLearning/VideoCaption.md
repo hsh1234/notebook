@@ -6,16 +6,16 @@
 
 ### 一、long-term Recurrent Convolutional Networks for Visual Recognition and Description --- 2015.2.17
 
-![1566703632542](.\VideoCaption.assets\1566703632542.png)
+![1566703632542](VideoCaption.assets/1566703632542.png)
 
 1. 在本文中提出了Long-term Recurrent Convolutional Network (LRCN)模型，包含了一个特征提取器（例如CNN），以及时序学习器，该模型不是专门用于视频描述的，该文章使用该模型的三种类型用在不同的任务上面。
 2. 帧画面通过特征变换参数（特征提取器）得到一个固定长度向量来表示该帧画面的特征，在得到帧画面的特征值后输入到序列模型（例如LSTMs），然后经过softmax进行选词：
 
-![1566713816911](.\VideoCaption.assets\1566713816911.png)
+![1566713816911](VideoCaption.assets/1566713816911.png)
 
 3. 该模型可以适应多种模式：
 
-   ![1566714677161](.\VideoCaption.assets\1566714677161.png)
+   ![1566714677161](VideoCaption.assets/1566714677161.png)
 
    1. Sequential inputs, fifixed outputs： many-to-one的模型，实现方式是对于序列模型，在最后步骤合并之前步长所学习到的特征成为一个总的特征y，这样就得到了一个输出。
    2. Fixed inputs, sequential outputs： one-to-many的模型，实现方式是在所有序列模型的输入步长都使用同一个x，由于个步长都会得到一个输出，因此得到了一个序列的输出。
@@ -24,7 +24,7 @@
 4. 训练方法：
 
    1. 使用随机梯度下降方法对模型进行训练，使输出y落在真实单词位置的可能性最大，也就是最大似然方法。
-   2. 采用交叉熵公式：![1566715756310](.\VideoCaption.assets\1566715756310.png)
+   2. 采用交叉熵公式：![1566715756310](VideoCaption.assets/1566715756310.png)
    3. 使用负对数的方法，变成最小化问题。
 
 5. 指标：
@@ -37,17 +37,17 @@
 
       在视频描述方面使用了模型如下：
 
-      ![1566719204700](.\VideoCaption.assets\1566719204700.png)
+      ![1566719204700](VideoCaption.assets/1566719204700.png)
 
       主要在LSTM之前使用了CRF对视频进行处理，得到如下评估数据（BLEU4）：
 
-      ![1566718674465](.\VideoCaption.assets\1566718674465.png)
+      ![1566718674465](VideoCaption.assets/1566718674465.png)
 
       
 
 ### 二、Translating Videos to Natural Language Using Deep Recurrent Neural Networks --- 2015.4.30
 
-![1566731313945](.\VideoCaption.assets\1566731313945.png)
+![1566731313945](VideoCaption.assets/1566731313945.png)
 
 #### 模型介绍：
 
@@ -59,15 +59,15 @@
 
 #### 训练方法：
 
-采用最大似然法，优化参数的值，来最大化生成正确句子的概率。 given the corresponding video *V* and the model parameters *θ*，对应的交叉熵公式：![1566784464077](E:\notebook\DeepLearning\VideoCaption.assets\1566784464077.png)
+采用最大似然法，优化参数的值，来最大化生成正确句子的概率。 given the corresponding video *V* and the model parameters *θ*，对应的交叉熵公式：![1566784464077](VideoCaption.assets/1566784464077.png)
 
 上式是对于整个句子做交叉熵，在本文中还可以对每个单词做交叉熵后相加得到损失值：
 
-![1566784597082](.\VideoCaption.assets\1566784597082.png)
+![1566784597082](VideoCaption.assets/1566784597082.png)
 
 对于将LSTM的输出映射到one-hot词库还是使用softmax函数：
 
-![1566789153944](.\VideoCaption.assets\1566789153944.png)
+![1566789153944](VideoCaption.assets/1566789153944.png)
 
 #### 评估指标：
 
@@ -75,11 +75,11 @@
 
 指标：
 
-![1566789433801](.\VideoCaption.assets\1566789433801.png)
+![1566789433801](VideoCaption.assets/1566789433801.png)
 
 在本文中去掉了mean pooling，直接输入单个帧特征到模型中，查看mean pooling的影响，最终效果：
 
-![1566789877545](.\VideoCaption.assets\1566789877545.png)
+![1566789877545](VideoCaption.assets/1566789877545.png)
 
 相对没有mean pooling差。
 
@@ -93,9 +93,9 @@
 
 ### 三、Sequence to Sequence – Video to Text --- 2015.10.19
 
-![1566790266376](.\VideoCaption.assets\1566790266376.png)
+![1566790266376](VideoCaption.assets/1566790266376.png)
 
-![1566790279497](.\VideoCaption.assets\1566790279497.png)
+![1566790279497](VideoCaption.assets/1566790279497.png)
 
 #### 模型介绍：
 
@@ -105,15 +105,15 @@
 
 #### 训练方法：
 
-采用最大似然法，优化参数的值，来最大化生成正确句子的概率，对于第二层LSTM的输出，经过softmax到one-hot词库中取词，并通过交叉熵的方式来计算误差值：![1566798383134](.\VideoCaption.assets\1566798383134.png)
+采用最大似然法，优化参数的值，来最大化生成正确句子的概率，对于第二层LSTM的输出，经过softmax到one-hot词库中取词，并通过交叉熵的方式来计算误差值：![1566798383134](VideoCaption.assets/1566798383134.png)
 
-![1566798417750](.\VideoCaption.assets\1566798417750.png)
+![1566798417750](VideoCaption.assets/1566798417750.png)
 
 #### 评估指标：
 
 使用视频数据集：MSVD
 
-![1566799051366](.\VideoCaption.assets\1566799051366.png)
+![1566799051366](VideoCaption.assets/1566799051366.png)
 
 #### 总结：
 
@@ -123,7 +123,99 @@
 
 ### 四、**Video Paragraph Captioning Using Hierarchical Recurrent Neural Networks** --- 2016.4.6
 
-![1566981985654](.\VideoCaption.assets\1566981985654.png)
+![1566981985654](VideoCaption.assets/1566981985654.png)
 
 #### 模型介绍：
+
+1. 在之前的文章中都是生成一句话对视频描述。**在这篇文章中提出了生成对文章的长文本描述，包含多个句子的段落**，这就要求能对视频提取更详细的特征以及语句之间关系的学习。还有一点不同的是在训练的时候，句子也会作为训练数据输入到模型中学习语句之间的关系。
+
+2. 整个模型分为句子生成器和段落生成器：
+
+   1. **句子生成器：**对**一个句子所有单词**做embedding得到一个低维（512）的表示，按顺序输入到RNNⅠ（GRU，512）中，得到整个句子的表示*h*和最后的一个*state*，然后将*h*和所有视频帧画面的特征一起输入到两个Attention中，第一个Attention将视频特征v和h转换成低维表示（32到256长度），然后第二个Attention将其再压缩成一个标量来表示这一特征的权重，两个Attention公式如下：![1567084710835](VideoCaption.assets/1567084710835.png)
+
+   2. 然后将得到的所有特征对应的权重计算softmax：![1567130942518](VideoCaption.assets/1567130942518.png)
+
+      最后得到![1567130980565](VideoCaption.assets/1567130980565.png)来作为每个特征的最终权重。
+
+   3. 在 **weighted averaging**层（**temporal mean pooling**的复杂版本）使用下式计算特征总和：![1567131185559](VideoCaption.assets/1567131185559.png)
+   
+   4. 以上到最终特征向量的获得，整个流程在模型中存在多个，也就是最后获得多个**u**来表示特征。每个特征通道通过学习不同的参数来学习特征的偏差值。在本文中使用两个通道，一个来提取视频的物体特征，一个来提取动作行为特征。
+   
+   5. **the multimodal layer：**将**weighted averaging**得到的**u**（两个通道就有两个u）以及RNNⅠ的**h**输入到multimodal layer得到一个1024维的表示：![1567131881828](VideoCaption.assets/1567131881828.png)
+   
+      在此为了降低过拟合，使用了0.5比例的dropout。
+   
+      <u>要注意的是：在1中的式子是使用h的t-1时刻，在这里使用的是h的t时刻，初步判断是RNNⅠ的到的h的t-1时刻是整个句子的最后表示，输入到段落生成器后得到一个新的输入导致RNNⅠ往前又走了一步，所以这时候是h的t时刻。</u>
+   
+   6. 在5步得到1024维表示后，通过一个hidden层（512*N）得到一个与词库单词向量长度一样的输出，然后通过softmax做归一化，最后通过MaxID（在向量中最大的值）得到对应one-hot的单词。
+   7. **段落生成器：**在RNNⅠ处理完**一个句子**的时候，段落生成器才开始计算。通过**embedding average**对当前句子单词做计算得到更紧凑的表示，以及处理完**一个句子**的RNNⅠ的最后状态state，作为句子的紧凑表示。
+   8. 在**sentence Embedding**中将7中得到的两个表示连接在一起，得到一个完整的句子表示（512维），并将其输入到RNNⅡ（GRU）中。
+   9. **paragraph state layer：**使用该单元将RNNⅡ的隐藏状态以及**sentence Embedding**得到的句子表示整合成一个最终的句子表示输入到RNNⅠ中作为其处理下一个句子的初始化隐藏状态。
+
+#### 训练方法：
+
+1. 本文用随机初始化的参数从零开始训练分层框架中的所有组件。
+2. 本文利用时间反向传播(BPTT)[53]计算参数的梯度，用随机梯度下降(SGD)寻找最优解。
+3. 为了更好地收敛，本文根据RMSPROP算法[44]将梯度除以其最近大小的运行平均值。为了避免RNN训练过程中常见的问题：梯度爆炸，我们设置了一个小的学习速率10E-4。
+4. 生成单词的概率：![1567136475507](VideoCaption.assets/1567136475507.png)
+
+   输入包含视频特征，在此之前输入的句子，当前句子单词前的所有单词。
+
+5. 句子生成损失函数：![1567136566729](VideoCaption.assets/1567136566729.png)
+
+   单词生成的损失之（交叉熵）之和除以句子的单词数量。
+
+6. 段落生成损失函数：![1567136657688](VideoCaption.assets/1567136657688.png)
+
+   所有句子生成的损失值之和除以句子数量。
+
+#### 评估指标：
+
+1. 使用**YouTubeClips**训练集，该数据集由从youtube下载的1，967个短片(平均9秒)组成。
+
+   ![1567137262731](VideoCaption.assets/1567137262731.png)
+
+2. 使用**TACoS-MultiLevel**训练集：该数据集包含185段长视频(平均6分钟)，拍摄于室内环境。
+
+   ![1567137327155](VideoCaption.assets/1567137327155.png)
+
+#### 总结：
+
+1. 比较之前提出了生成视频长句子描述的方案，对视频的特征提取需要更高的要求以及对段落生成的实现。
+2. Attention不仅得到时间上的关系，还得到空间上的关系（本文还通过计算视频帧上不同位置的多图像块的特征来将空间注意力集中在一起，并将这些特征汇集在一起）。
+
+
+
+### 五、Dense-Captioning Events in Videos --- 2017.5.2
+
+![1567137577917](VideoCaption.assets/1567137577917.png)
+
+![1567137591104](VideoCaption.assets/1567137591104.png)
+
+
+
+#### 模型介绍：
+
+#### 训练方法：
+
+#### 评估指标：
+
+#### 总结：
+
+
+
+### 六、Video Captioning via Hierarchical Reinforcement Learning --- 2018.3.29
+
+
+
+
+
+
+#### 模型介绍：
+
+#### 训练方法：
+
+#### 评估指标：
+
+#### 总结：
 
