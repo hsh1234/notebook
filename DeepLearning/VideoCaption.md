@@ -208,15 +208,73 @@
 
 ![1567152456086](VideoCaption.assets/1567152456086.png)
 
-
-
+![1567686592786](VideoCaption.assets/1567686592786.png)
 
 #### 模型介绍：
+
+1. 遵循encoder-decoder框架，使用CNN加上RNN来对视频和语句信息进行encoder，使用HRL Agent来decoder。
+2. 使用预训练好的CNN模型来加速训练，使用预训练好的Internal Critic模块。
+3. 使用CNN对视频帧进行特征提取后给两层LSTM，分别产生h1和h2的输出。将h2和Attention的输出c2输入到Manager模块（RNN）产生gate值，将gate，Worker模块上一个输入a以及Attention（使用到h1）的输出c1输入到Worker模块来产生单词（一个gate值对应多个单词），产生单词的动作也叫action，将action输入到Environment来获得这次得到单词的奖励，同时也将action输入给Internal Critic模块来判断是否需要Manager模块给出新的gate信号以及是否达到了语句的结尾<EOS>。
+4. 获得一个由Manager产生的gate信号，Worker会产生不定长的句子段落。
+
+#### 训练方法：
+
+1.  reinforcement learning agent在最开始的时候使用交叉熵来做最初策略：
+
+   ![1567773054507](VideoCaption.assets/1567773054507.png)
+
+   之后再使用6的方法。
+
+2. 在增强学习中的Reward的给出由评估方法（CIDEr, BLEU or METEOR）给出，Worker模块本次生成的单词（action）的Reward由之前产生的单词加本次单词的CIDEr得分减去之前产生的单词CIDEr得分，具体公式：![1567771954813](VideoCaption.assets/1567771954813.png)
+
+   所以Worker得到的Reward是：
+
+   ![1567771982589](VideoCaption.assets/1567771982589.png)
+
+   而Manager得到的Reward是：
+
+   ![1567772005468](VideoCaption.assets/1567772005468.png)
+
+3. 训练Manager和Worker的时候是异步的：在训练Manager的时候固定Worker的参数，训练Worker的时候固定Manager的参数。
+
+   
+
+#### 评估指标：
+
+1. 使用**MSR-VTT**数据集（10,000 video clips (6,513 for training, 497 for validation, and the remaining 2,990 for testing)：
+
+   ![1567773712799](VideoCaption.assets/1567773712799.png)
+
+2. 使用**Charades Captions** 数据集（ 9,848 videos of daily indoors activities）：
+
+   ![1567773775581](VideoCaption.assets/1567773775581.png)
+
+   
+
+#### 总结：
+
+1. 使用了增强学习来实现视频描述，实现长文本的描述，能描述长视频。
+![1567773941819](VideoCaption.assets/1567773941819.png)
+
+
+
+### 七、Move Forward and Tell: A Progressive Generator of Video Descriptions
+
+![1567775620827](VideoCaption.assets/1567775620827.png)
+
+#### 模型介绍：
+
+1.  encoder-decoder的模型：
+   1. 单纯的一个句子不足以描述含有复杂信息的视频。
+2. 生成多句子模型：
+   1. 句子之间缺乏连贯性和高度冗余。
+   2. 原因：
+      1. 无法将给定视频的时间结构与所生成的描述的叙事结构对齐
+      2. 忽略句子之间的依存性
+3. to do
 
 #### 训练方法：
 
 #### 评估指标：
 
 #### 总结：
-
-
